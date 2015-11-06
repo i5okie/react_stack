@@ -8,7 +8,7 @@ let ChannelSource = {
         remote(state){
             return new Promise((resolve, reject) => {
                 firebaseRef.once("value", (dataSnapshot)=> {
-                    var channels = detaSnapshot.val();
+                    var channels = dataSnapshot.val();
                     resolve(channels);
                 });
             });

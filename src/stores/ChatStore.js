@@ -13,7 +13,7 @@ class ChatStore {
     }
 
     @bind(Actions.messagesReceived)
-    receiveMessages(messages){
+    receivedMessages(messages){
         _(messages)
             .keys()
             .each((key) => {
@@ -27,7 +27,8 @@ class ChatStore {
     }
 
     @bind(Actions.channelsReceived)
-    receiveChannels(channels){
+    receivedChannels(channels){
+        let selectedChannel;
         _(channels)
             .keys()
             .each((key, index) => {
@@ -41,7 +42,7 @@ class ChatStore {
         this.setState({
             channels,
             selectedChannel
-        })
+        });
 
     }
 
