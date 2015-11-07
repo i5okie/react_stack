@@ -10,8 +10,8 @@ class Message extends React.Component {
 
     render(){
         return (
-            <ListItem leftAvatar={<Avatar src="http://www.ecoledumagasin.com/session19/wp-content/uploads/2010/03/avatar3_pg.jpg" />}>
-                {this.props.message}
+            <ListItem leftAvatar={<Avatar src={this.props.message.profilePic} />}>
+                {this.props.message.message}
             </ListItem>
         );
     }

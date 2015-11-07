@@ -9,21 +9,71 @@ import _ from 'lodash';
 @decorate(alt)
 class ChatStore {
     constructor(){
-        this.state = {user: null, messages: null};
+        this.state = {
+            user: null,
+            messages: null,
+            messagesLoading: true
+        };
+    }
+
+    @bind(Actions.messagesLoading)
+    messagesLoading(){
+        this.setState({
+            messagesLoading: true
+        });
     }
 
     @bind(Actions.messagesReceived)
     receivedMessages(messages){
         _(messages)
             .keys()
-            .each((key) => {
+            .each((k) => {
                 messages[k].key = k;
             })
             .value();
 
             this.setState({
-                messages
+                messages,
+                messagesLoading: false
             });
+    }
+
+    @bind(Actions.messageReceived)
+    messageReceived(msg){
+        if(this.state.messages[msg.key]){
+            return;
+        }
+
+        this.state.messages[msg.key] = msg;
+
+        this.setState({
+            messages: this.state.messages
+        });
+    }
+
+    @bind(Actions.sendMessage)
+    sendMessage(message){
+        this.state.message = message;
+        setTimeout(this.getInstance().sendMessage, 10);
+    }
+
+    @bind(Actions.channelOpened)
+    channelOpened(selectedChannel){
+        _(this.state.channels)
+            .values()
+            .each((channel)=> {
+                channel.selected = false;
+            })
+            .value();
+
+        selectedChannel.selected = true;
+
+        this.setState({
+            selectedChannel,
+            channels: this.state.channels
+        });
+
+        setTimeout(this.getInstance().getMessages, 100);
     }
 
     @bind(Actions.channelsReceived)
